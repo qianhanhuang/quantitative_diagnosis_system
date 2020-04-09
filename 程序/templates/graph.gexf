@@ -1,0 +1,809 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <gexf xmlns="http://www.gexf.net/1.2draft" version="1.2" xmlns:viz="http://www.gexf.net/1.2draft/viz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.gexf.net/1.2draft http://www.gexf.net/1.2draft/gexf.xsd">
+      <meta lastmodifieddate="2014-01-30">
+        <creator>Gephi 0.8.1</creator>
+        <description></description>
+      </meta>
+      <graph defaultedgetype="undirected" mode="static">
+        <attributes class="node" mode="static">
+          <attribute id="modularity_class" title="Modularity Class" type="integer"></attribute>
+        </attributes>
+        <nodes>
+          <node id="100" label="苔薄">
+            <attvalues>
+              <attvalue for="modularity_class" value="1"></attvalue>
+            </attvalues>
+            <viz:size value="4602"></viz:size>
+          </node>
+          <node id="13" label="头晕">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="215"></viz:size>
+          </node>
+          <node id="106" label="舌紫">
+            <attvalues>
+              <attvalue for="modularity_class" value="1"></attvalue>
+            </attvalues>
+            <viz:size value="1213"></viz:size>
+          </node>
+          <node id="104" label="舌暗">
+            <attvalues>
+              <attvalue for="modularity_class" value="1"></attvalue>
+            </attvalues>
+            <viz:size value="3507"></viz:size>
+          </node>
+          <node id="102" label="苔黄">
+            <attvalues>
+              <attvalue for="modularity_class" value="1"></attvalue>
+            </attvalues>
+            <viz:size value="3860"></viz:size>
+          </node>
+          <node id="103" label="苔腻">
+            <attvalues>
+              <attvalue for="modularity_class" value="1"></attvalue>
+            </attvalues>
+            <viz:size value="3693"></viz:size>
+          </node>
+          <node id="113" label="脉沉">
+            <attvalues>
+              <attvalue for="modularity_class" value="2"></attvalue>
+            </attvalues>
+            <viz:size value="1064"></viz:size>
+          </node>
+          <node id="111" label="脉滑">
+            <attvalues>
+              <attvalue for="modularity_class" value="2"></attvalue>
+            </attvalues>
+            <viz:size value="3232"></viz:size>
+          </node>
+          <node id="101" label="舌红">
+            <attvalues>
+              <attvalue for="modularity_class" value="1"></attvalue>
+            </attvalues>
+            <viz:size value="4028"></viz:size>
+          </node>
+          <node id="3" label="寐差">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="377"></viz:size>
+          </node>
+          <node id="110" label="脉细">
+            <attvalues>
+              <attvalue for="modularity_class" value="2"></attvalue>
+            </attvalues>
+            <viz:size value="4012"></viz:size>
+          </node>
+          <node id="127" label="肾阴虚">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="291"></viz:size>
+          </node>
+          <node id="2" label="咳嗽">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="551"></viz:size>
+          </node>
+          <node id="112" label="脉弦">
+            <attvalues>
+              <attvalue for="modularity_class" value="2"></attvalue>
+            </attvalues>
+            <viz:size value="2770"></viz:size>
+          </node>
+          <node id="5" label="纳差">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="325"></viz:size>
+          </node>
+          <node id="115" label="脉数">
+            <attvalues>
+              <attvalue for="modularity_class" value="2"></attvalue>
+            </attvalues>
+            <viz:size value="432"></viz:size>
+          </node>
+          <node id="10" label="乏力">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="259"></viz:size>
+          </node>
+          <node id="107" label="舌淡">
+            <attvalues>
+              <attvalue for="modularity_class" value="1"></attvalue>
+            </attvalues>
+            <viz:size value="845"></viz:size>
+          </node>
+          <node id="105" label="苔白">
+            <attvalues>
+              <attvalue for="modularity_class" value="1"></attvalue>
+            </attvalues>
+            <viz:size value="1973"></viz:size>
+          </node>
+          <node id="117" label="脉弱">
+            <attvalues>
+              <attvalue for="modularity_class" value="2"></attvalue>
+            </attvalues>
+            <viz:size value="208"></viz:size>
+          </node>
+          <node id="1" label="胸闷">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="598"></viz:size>
+          </node>
+          <node id="9" label="心慌">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="271"></viz:size>
+          </node>
+          <node id="16" label="大便正常">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="185"></viz:size>
+          </node>
+          <node id="0" label="口干">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="827"></viz:size>
+          </node>
+          <node id="108" label="苔淡">
+            <attvalues>
+              <attvalue for="modularity_class" value="1"></attvalue>
+            </attvalues>
+            <viz:size value="598"></viz:size>
+          </node>
+          <node id="7" label="腹胀">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="309"></viz:size>
+          </node>
+          <node id="123" label="肝肾阴虚">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="382"></viz:size>
+          </node>
+          <node id="11" label="心悸">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="232"></viz:size>
+          </node>
+          <node id="128" label="肝郁气滞">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="268"></viz:size>
+          </node>
+          <node id="114" label="脉小">
+            <attvalues>
+              <attvalue for="modularity_class" value="2"></attvalue>
+            </attvalues>
+            <viz:size value="890"></viz:size>
+          </node>
+          <node id="8" label="尿黄">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="305"></viz:size>
+          </node>
+          <node id="125" label="痰邪">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="329"></viz:size>
+          </node>
+          <node id="17" label="怕冷">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="178"></viz:size>
+          </node>
+          <node id="122" label="痰瘀">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="392"></viz:size>
+          </node>
+          <node id="130" label="肝阴虚">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="255"></viz:size>
+          </node>
+          <node id="121" label="肝郁脾虚">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="520"></viz:size>
+          </node>
+          <node id="129" label="肾阳虚">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="260"></viz:size>
+          </node>
+          <node id="4" label="疲劳">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="330"></viz:size>
+          </node>
+          <node id="6" label="腰酸">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="310"></viz:size>
+          </node>
+          <node id="109" label="舌裂">
+            <attvalues>
+              <attvalue for="modularity_class" value="1"></attvalue>
+            </attvalues>
+            <viz:size value="523"></viz:size>
+          </node>
+          <node id="124" label="肺气阴虚">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="361"></viz:size>
+          </node>
+          <node id="126" label="肝胆湿热">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="325"></viz:size>
+          </node>
+          <node id="131" label="肝胃不和">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="249"></viz:size>
+          </node>
+          <node id="116" label="脉濡">
+            <attvalues>
+              <attvalue for="modularity_class" value="2"></attvalue>
+            </attvalues>
+            <viz:size value="217"></viz:size>
+          </node>
+          <node id="132" label="肝血瘀阻">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="248"></viz:size>
+          </node>
+          <node id="14" label="畏冷">
+            <attvalues>
+              <attvalue for="modularity_class" value="0"></attvalue>
+            </attvalues>
+            <viz:size value="205"></viz:size>
+          </node>
+          <node id="120" label="肝经湿热">
+            <attvalues>
+              <attvalue for="modularity_class" value="3"></attvalue>
+            </attvalues>
+            <viz:size value="648"></viz:size>
+          </node>
+        </nodes>
+        <edges>
+          <edge id="4" source="100" target="13" value="12">
+          </edge>
+          <edge id="24" source="106" target="104" value="10">
+          </edge>
+          <edge id="25" source="100" target="106" value="10">
+          </edge>
+          <edge id="26" source="102" target="106" value="11">
+          </edge>
+          <edge id="27" source="103" target="106" value="10">
+          </edge>
+          <edge id="28" source="106" target="113" value="11">
+          </edge>
+          <edge id="29" source="106" target="111" value="11">
+          </edge>
+          <edge id="30" source="100" target="104" value="9">
+          </edge>
+          <edge id="31" source="102" target="104" value="9">
+          </edge>
+          <edge id="32" source="103" target="104" value="9">
+          </edge>
+          <edge id="33" source="104" target="113" value="11">
+          </edge>
+          <edge id="34" source="104" target="111" value="9">
+          </edge>
+          <edge id="35" source="102" target="100" value="9">
+          </edge>
+          <edge id="36" source="100" target="103" value="9">
+          </edge>
+          <edge id="37" source="100" target="113" value="10">
+          </edge>
+          <edge id="38" source="100" target="111" value="9">
+          </edge>
+          <edge id="39" source="102" target="103" value="9">
+          </edge>
+          <edge id="41" source="102" target="111" value="9">
+          </edge>
+          <edge id="42" source="103" target="113" value="11">
+          </edge>
+          <edge id="43" source="103" target="111" value="9">
+          </edge>
+          <edge id="44" source="111" target="113" value="13">
+          </edge>
+          <edge id="45" source="101" target="13" value="12">
+          </edge>
+          <edge id="48" source="101" target="104" value="9">
+          </edge>
+          <edge id="49" source="100" target="101" value="9">
+          </edge>
+          <edge id="50" source="102" target="101" value="9">
+          </edge>
+          <edge id="51" source="103" target="101" value="9">
+          </edge>
+          <edge id="61" source="101" target="113" value="10">
+          </edge>
+          <edge id="62" source="101" target="111" value="9">
+          </edge>
+          <edge id="78" source="101" target="3" value="11">
+          </edge>
+          <edge id="79" source="104" target="3" value="13">
+          </edge>
+          <edge id="80" source="110" target="3" value="11">
+          </edge>
+          <edge id="81" source="111" target="3" value="12">
+          </edge>
+          <edge id="82" source="101" target="110" value="9">
+          </edge>
+          <edge id="83" source="104" target="110" value="9">
+          </edge>
+          <edge id="84" source="110" target="111" value="9">
+          </edge>
+          <edge id="87" source="100" target="3" value="11">
+          </edge>
+          <edge id="88" source="102" target="3" value="12">
+          </edge>
+          <edge id="89" source="100" target="110" value="9">
+          </edge>
+          <edge id="90" source="102" target="110" value="9">
+          </edge>
+          <edge id="94" source="101" target="127" value="13">
+          </edge>
+          <edge id="96" source="100" target="127" value="12">
+          </edge>
+          <edge id="97" source="102" target="127" value="12">
+          </edge>
+          <edge id="98" source="110" target="127" value="13">
+          </edge>
+          <edge id="105" source="101" target="2" value="11">
+          </edge>
+          <edge id="106" source="102" target="2" value="11">
+          </edge>
+          <edge id="108" source="112" target="2" value="12">
+          </edge>
+          <edge id="109" source="111" target="2" value="11">
+          </edge>
+          <edge id="143" source="101" target="5" value="12">
+          </edge>
+          <edge id="144" source="102" target="5" value="12">
+          </edge>
+          <edge id="147" source="111" target="5" value="13">
+          </edge>
+          <edge id="157" source="101" target="112" value="9">
+          </edge>
+          <edge id="158" source="101" target="115" value="12">
+          </edge>
+          <edge id="160" source="102" target="112" value="9">
+          </edge>
+          <edge id="161" source="102" target="115" value="11">
+          </edge>
+          <edge id="163" source="113" target="112" value="11">
+          </edge>
+          <edge id="166" source="111" target="112" value="9">
+          </edge>
+          <edge id="169" source="111" target="115" value="12">
+          </edge>
+          <edge id="180" source="101" target="10" value="12">
+          </edge>
+          <edge id="181" source="100" target="10" value="13">
+          </edge>
+          <edge id="185" source="101" target="107" value="11">
+          </edge>
+          <edge id="186" source="100" target="107" value="10">
+          </edge>
+          <edge id="187" source="105" target="107" value="11">
+          </edge>
+          <edge id="188" source="107" target="110" value="11">
+          </edge>
+          <edge id="190" source="105" target="101" value="10">
+          </edge>
+          <edge id="192" source="100" target="105" value="9">
+          </edge>
+          <edge id="193" source="100" target="117" value="13">
+          </edge>
+          <edge id="194" source="105" target="110" value="10">
+          </edge>
+          <edge id="217" source="101" target="1" value="11">
+          </edge>
+          <edge id="218" source="103" target="1" value="11">
+          </edge>
+          <edge id="219" source="110" target="1" value="11">
+          </edge>
+          <edge id="220" source="112" target="1" value="12">
+          </edge>
+          <edge id="223" source="101" target="9" value="12">
+          </edge>
+          <edge id="225" source="110" target="9" value="12">
+          </edge>
+          <edge id="232" source="103" target="107" value="11">
+          </edge>
+          <edge id="233" source="107" target="112" value="11">
+          </edge>
+          <edge id="234" source="103" target="110" value="9">
+          </edge>
+          <edge id="235" source="103" target="112" value="9">
+          </edge>
+          <edge id="236" source="110" target="112" value="9">
+          </edge>
+          <edge id="248" source="103" target="2" value="11">
+          </edge>
+          <edge id="265" source="103" target="5" value="12">
+          </edge>
+          <edge id="327" source="100" target="2" value="11">
+          </edge>
+          <edge id="328" source="110" target="2" value="11">
+          </edge>
+          <edge id="343" source="102" target="16" value="13">
+          </edge>
+          <edge id="347" source="100" target="115" value="12">
+          </edge>
+          <edge id="348" source="103" target="115" value="12">
+          </edge>
+          <edge id="351" source="105" target="2" value="12">
+          </edge>
+          <edge id="361" source="105" target="111" value="10">
+          </edge>
+          <edge id="364" source="103" target="105" value="10">
+          </edge>
+          <edge id="405" source="104" target="1" value="11">
+          </edge>
+          <edge id="407" source="102" target="1" value="11">
+          </edge>
+          <edge id="411" source="101" target="0" value="10">
+          </edge>
+          <edge id="412" source="104" target="0" value="10">
+          </edge>
+          <edge id="414" source="102" target="0" value="10">
+          </edge>
+          <edge id="415" source="103" target="0" value="10">
+          </edge>
+          <edge id="416" source="110" target="0" value="10">
+          </edge>
+          <edge id="429" source="108" target="104" value="11">
+          </edge>
+          <edge id="430" source="104" target="115" value="12">
+          </edge>
+          <edge id="431" source="102" target="108" value="10">
+          </edge>
+          <edge id="432" source="103" target="108" value="10">
+          </edge>
+          <edge id="433" source="108" target="110" value="11">
+          </edge>
+          <edge id="438" source="100" target="0" value="10">
+          </edge>
+          <edge id="439" source="111" target="0" value="10">
+          </edge>
+          <edge id="440" source="112" target="0" value="11">
+          </edge>
+          <edge id="457" source="100" target="112" value="9">
+          </edge>
+          <edge id="458" source="105" target="0" value="13">
+          </edge>
+          <edge id="524" source="102" target="107" value="12">
+          </edge>
+          <edge id="527" source="105" target="112" value="10">
+          </edge>
+          <edge id="558" source="103" target="7" value="12">
+          </edge>
+          <edge id="559" source="102" target="7" value="12">
+          </edge>
+          <edge id="560" source="7" target="110" value="12">
+          </edge>
+          <edge id="561" source="7" target="111" value="13">
+          </edge>
+          <edge id="565" source="101" target="7" value="12">
+          </edge>
+          <edge id="566" source="104" target="7" value="12">
+          </edge>
+          <edge id="567" source="105" target="104" value="10">
+          </edge>
+          <edge id="573" source="100" target="7" value="12">
+          </edge>
+          <edge id="575" source="107" target="113" value="12">
+          </edge>
+          <edge id="576" source="105" target="113" value="10">
+          </edge>
+          <edge id="577" source="110" target="113" value="10">
+          </edge>
+          <edge id="583" source="107" target="111" value="12">
+          </edge>
+          <edge id="585" source="101" target="123" value="12">
+          </edge>
+          <edge id="587" source="110" target="123" value="12">
+          </edge>
+          <edge id="588" source="111" target="123" value="12">
+          </edge>
+          <edge id="589" source="104" target="123" value="12">
+          </edge>
+          <edge id="590" source="102" target="123" value="12">
+          </edge>
+          <edge id="591" source="103" target="123" value="12">
+          </edge>
+          <edge id="599" source="101" target="11" value="12">
+          </edge>
+          <edge id="604" source="108" target="111" value="11">
+          </edge>
+          <edge id="605" source="1" target="11" value="13">
+          </edge>
+          <edge id="618" source="104" target="9" value="13">
+          </edge>
+          <edge id="622" source="111" target="1" value="12">
+          </edge>
+          <edge id="637" source="104" target="112" value="9">
+          </edge>
+          <edge id="643" source="110" target="128" value="12">
+          </edge>
+          <edge id="644" source="112" target="128" value="13">
+          </edge>
+          <edge id="683" source="100" target="1" value="11">
+          </edge>
+          <edge id="684" source="105" target="1" value="12">
+          </edge>
+          <edge id="717" source="104" target="2" value="11">
+          </edge>
+          <edge id="727" source="114" target="0" value="12">
+          </edge>
+          <edge id="729" source="101" target="8" value="12">
+          </edge>
+          <edge id="730" source="104" target="8" value="11">
+          </edge>
+          <edge id="731" source="103" target="8" value="12">
+          </edge>
+          <edge id="733" source="102" target="8" value="11">
+          </edge>
+          <edge id="737" source="101" target="114" value="10">
+          </edge>
+          <edge id="738" source="104" target="114" value="10">
+          </edge>
+          <edge id="740" source="103" target="114" value="10">
+          </edge>
+          <edge id="744" source="102" target="114" value="10">
+          </edge>
+          <edge id="745" source="112" target="114" value="10">
+          </edge>
+          <edge id="748" source="100" target="8" value="12">
+          </edge>
+          <edge id="749" source="100" target="114" value="10">
+          </edge>
+          <edge id="765" source="100" target="125" value="12">
+          </edge>
+          <edge id="766" source="102" target="125" value="12">
+          </edge>
+          <edge id="768" source="104" target="125" value="12">
+          </edge>
+          <edge id="770" source="111" target="125" value="13">
+          </edge>
+          <edge id="794" source="101" target="17" value="13">
+          </edge>
+          <edge id="795" source="100" target="17" value="13">
+          </edge>
+          <edge id="797" source="110" target="17" value="13">
+          </edge>
+          <edge id="862" source="104" target="5" value="12">
+          </edge>
+          <edge id="941" source="100" target="11" value="12">
+          </edge>
+          <edge id="981" source="100" target="9" value="12">
+          </edge>
+          <edge id="987" source="100" target="5" value="12">
+          </edge>
+          <edge id="989" source="110" target="5" value="12">
+          </edge>
+          <edge id="1010" source="104" target="122" value="12">
+          </edge>
+          <edge id="1011" source="103" target="122" value="12">
+          </edge>
+          <edge id="1012" source="112" target="122" value="13">
+          </edge>
+          <edge id="1013" source="110" target="122" value="12">
+          </edge>
+          <edge id="1062" source="100" target="108" value="11">
+          </edge>
+          <edge id="1073" source="102" target="9" value="12">
+          </edge>
+          <edge id="1085" source="101" target="128" value="12">
+          </edge>
+          <edge id="1089" source="100" target="128" value="12">
+          </edge>
+          <edge id="1102" source="101" target="130" value="12">
+          </edge>
+          <edge id="1103" source="100" target="130" value="12">
+          </edge>
+          <edge id="1137" source="105" target="122" value="12">
+          </edge>
+          <edge id="1144" source="106" target="112" value="11">
+          </edge>
+          <edge id="1149" source="103" target="121" value="11">
+          </edge>
+          <edge id="1150" source="110" target="121" value="11">
+          </edge>
+          <edge id="1151" source="112" target="121" value="12">
+          </edge>
+          <edge id="1182" source="105" target="106" value="10">
+          </edge>
+          <edge id="1183" source="106" target="110" value="10">
+          </edge>
+          <edge id="1200" source="100" target="122" value="12">
+          </edge>
+          <edge id="1225" source="100" target="129" value="12">
+          </edge>
+          <edge id="1247" source="101" target="4" value="11">
+          </edge>
+          <edge id="1248" source="100" target="4" value="11">
+          </edge>
+          <edge id="1249" source="103" target="4" value="12">
+          </edge>
+          <edge id="1250" source="110" target="4" value="11">
+          </edge>
+          <edge id="1340" source="101" target="6" value="11">
+          </edge>
+          <edge id="1341" source="100" target="6" value="11">
+          </edge>
+          <edge id="1342" source="102" target="6" value="12">
+          </edge>
+          <edge id="1355" source="100" target="123" value="12">
+          </edge>
+          <edge id="1387" source="112" target="3" value="12">
+          </edge>
+          <edge id="1433" source="109" target="101" value="11">
+          </edge>
+          <edge id="1434" source="109" target="104" value="12">
+          </edge>
+          <edge id="1435" source="100" target="109" value="11">
+          </edge>
+          <edge id="1436" source="102" target="109" value="11">
+          </edge>
+          <edge id="1437" source="103" target="109" value="11">
+          </edge>
+          <edge id="1439" source="109" target="110" value="11">
+          </edge>
+          <edge id="1546" source="103" target="125" value="12">
+          </edge>
+          <edge id="1573" source="101" target="124" value="12">
+          </edge>
+          <edge id="1574" source="100" target="124" value="12">
+          </edge>
+          <edge id="1575" source="102" target="124" value="11">
+          </edge>
+          <edge id="1577" source="110" target="124" value="12">
+          </edge>
+          <edge id="1596" source="111" target="114" value="10">
+          </edge>
+          <edge id="1604" source="104" target="124" value="12">
+          </edge>
+          <edge id="1605" source="103" target="124" value="12">
+          </edge>
+          <edge id="1607" source="111" target="124" value="12">
+          </edge>
+          <edge id="1676" source="101" target="126" value="12">
+          </edge>
+          <edge id="1680" source="111" target="126" value="12">
+          </edge>
+          <edge id="1695" source="104" target="131" value="12">
+          </edge>
+          <edge id="1696" source="102" target="131" value="12">
+          </edge>
+          <edge id="1738" source="109" target="112" value="12">
+          </edge>
+          <edge id="1802" source="6" target="112" value="12">
+          </edge>
+          <edge id="1825" source="109" target="111" value="11">
+          </edge>
+          <edge id="1890" source="102" target="126" value="11">
+          </edge>
+          <edge id="1891" source="110" target="126" value="12">
+          </edge>
+          <edge id="1900" source="106" target="107" value="12">
+          </edge>
+          <edge id="1946" source="101" target="131" value="13">
+          </edge>
+          <edge id="1947" source="100" target="131" value="13">
+          </edge>
+          <edge id="1951" source="103" target="127" value="13">
+          </edge>
+          <edge id="1968" source="104" target="126" value="12">
+          </edge>
+          <edge id="1969" source="103" target="126" value="12">
+          </edge>
+          <edge id="2001" source="111" target="8" value="12">
+          </edge>
+          <edge id="2019" source="106" target="0" value="13">
+          </edge>
+          <edge id="2082" source="6" target="110" value="11">
+          </edge>
+          <edge id="2140" source="116" target="111" value="12">
+          </edge>
+          <edge id="2187" source="101" target="129" value="12">
+          </edge>
+          <edge id="2190" source="110" target="129" value="13">
+          </edge>
+          <edge id="2198" source="108" target="106" value="13">
+          </edge>
+          <edge id="2248" source="102" target="4" value="12">
+          </edge>
+          <edge id="2249" source="112" target="4" value="12">
+          </edge>
+          <edge id="2252" source="101" target="121" value="11">
+          </edge>
+          <edge id="2253" source="102" target="121" value="11">
+          </edge>
+          <edge id="2262" source="100" target="121" value="11">
+          </edge>
+          <edge id="2369" source="6" target="111" value="12">
+          </edge>
+          <edge id="2382" source="103" target="6" value="12">
+          </edge>
+          <edge id="2446" source="111" target="4" value="12">
+          </edge>
+          <edge id="2484" source="103" target="3" value="12">
+          </edge>
+          <edge id="2531" source="100" target="126" value="12">
+          </edge>
+          <edge id="2629" source="101" target="132" value="13">
+          </edge>
+          <edge id="2630" source="100" target="132" value="12">
+          </edge>
+          <edge id="2631" source="102" target="132" value="13">
+          </edge>
+          <edge id="2704" source="102" target="116" value="13">
+          </edge>
+          <edge id="2715" source="111" target="121" value="12">
+          </edge>
+          <edge id="2816" source="110" target="8" value="12">
+          </edge>
+          <edge id="3437" source="101" target="14" value="12">
+          </edge>
+          <edge id="3438" source="100" target="14" value="12">
+          </edge>
+          <edge id="3441" source="110" target="14" value="12">
+          </edge>
+          <edge id="3449" source="111" target="14" value="12">
+          </edge>
+          <edge id="4485" source="106" target="122" value="13">
+          </edge>
+          <edge id="4732" source="101" target="120" value="11">
+          </edge>
+          <edge id="4733" source="100" target="120" value="11">
+          </edge>
+          <edge id="4736" source="110" target="120" value="11">
+          </edge>
+          <edge id="4737" source="112" target="120" value="12">
+          </edge>
+          <edge id="4743" source="104" target="120" value="11">
+          </edge>
+          <edge id="4756" source="104" target="121" value="11">
+          </edge>
+          <edge id="4865" source="102" target="120" value="10">
+          </edge>
+          <edge id="4866" source="103" target="120" value="11">
+          </edge>
+          <edge id="5134" source="111" target="120" value="11">
+          </edge>
+        </edges>
+      </graph>
+    </gexf>
+    

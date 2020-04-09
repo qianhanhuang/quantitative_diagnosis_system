@@ -1,0 +1,174 @@
+<div id="ac_div">
+    <div>
+        <div>
+            <div class="nav_top">
+                <span>算法评估></span>
+                <span>算法指标</span>
+            </div>
+            <label class="nav_label">算法指标</label>
+        </div>
+    </div>
+    <div id="radar" style="height: 70%"></div>
+</div>
+<script>
+
+    var option = {
+        backgroundColor: '#fff',
+        legend: {
+            bottom: 5,
+            data: ['AdaBoost', '随机森林', 'CNN', '谱聚类'],
+            itemGap: 20,
+            textStyle: {
+                color: '#081839',
+                fontSize: 14
+            },
+            selectedMode: 'single'
+        },
+        radar: {
+            indicator: [
+                {name: '精确度', max: 1},
+                {name: '召回率', max: 1},
+                {name: 'F1值', max: 1},
+            ],
+            shape: 'circle',
+            splitNumber: 5,
+            name: {
+                textStyle: {
+                    color: 'rgb(8, 24, 57)'
+                }
+            },
+            splitLine: {
+                lineStyle: {
+                    color: [
+                        'rgba(8, 24, 57,0.5)', 'rgba(8, 24, 57, 0.6)',
+                        'rgba(8, 24, 57,0.7)', 'rgba(8, 24, 57, 0.8)',
+                        'rgba(8, 24, 57,0.9)', 'rgba(8, 24, 57, 1)'
+                    ].reverse()
+                }
+            },
+            splitArea: {
+                show: false
+            },
+            axisLine: {
+                lineStyle: {
+                    color: 'rgba(8, 24, 57, 0.5)'
+                }
+            }
+        },
+        series: [
+            {
+                name: 'AdaBoost',
+                type: 'radar',
+                lineStyle: {
+                    normal: {
+                        width: 1,
+                        opacity: 0.5
+                    }
+                },
+                emphasis: {
+                    areaStyle: {
+                        color: 'rgba(0,250,0,0.3)'
+                    }
+                },
+                data: {{ ab }},
+                symbol: 'none',
+                itemStyle: {
+                    normal: {
+                        color: '#FEDC00'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        opacity: 0.1
+                    }
+                }
+            },
+            {
+                name: '随机森林',
+                type: 'radar',
+                lineStyle: {
+                    normal: {
+                        width: 1,
+                        opacity: 0.5
+                    }
+                },
+                emphasis: {
+                    areaStyle: {
+                        color: 'rgba(0,250,0,0.3)'
+                    }
+                },
+                data: {{ rf }},
+                symbol: 'none',
+                itemStyle: {
+                    normal: {
+                        color: '#00BCDE'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        opacity: 0.05
+                    }
+                }
+            },
+            {
+                name: 'CNN',
+                type: 'radar',
+                lineStyle: {
+                    normal: {
+                        width: 1,
+                        opacity: 0.5
+                    }
+                },
+                emphasis: {
+                    areaStyle: {
+                        color: 'rgba(0,250,0,0.3)'
+                    }
+                },
+                data: {{ cnn }},
+                symbol: 'none',
+                itemStyle: {
+                    normal: {
+                        color: '#89FF34'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        opacity: 0.05
+                    }
+                }
+            },
+            {
+                name: '谱聚类',
+                type: 'radar',
+                lineStyle: {
+                    normal: {
+                        width: 1,
+                        opacity: 0.5
+                    }
+                },
+                emphasis: {
+                    areaStyle: {
+                        color: 'rgba(0,250,0,0.3)'
+                    }
+                },
+                data: {{ sp }},
+                symbol: 'none',
+                itemStyle: {
+                    normal: {
+                        color: '#D8C965'
+                    }
+                },
+                areaStyle: {
+                    normal: {
+                        opacity: 0.05
+                    }
+                }
+            }
+        ]
+    };
+
+    var myChart = echarts.init(document.getElementById("radar"));
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>

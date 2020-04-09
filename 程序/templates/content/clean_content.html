@@ -1,0 +1,269 @@
+<style>
+    #cc_div .qds_btn[data-toggle='modal'] {
+        float: right;
+        margin: 5px 0 5px 5px;
+    }
+
+    .ui-autocomplete {
+        z-index: 11111;
+        max-width: 500px;
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: scroll;
+        font-size: 14px;
+    }
+
+    #ccModal2 input[type="text"] {
+        display: inline-block;
+        padding: 0 0 0 10px;
+        height: 30px;
+        width: 500px;
+        margin: 0 0 10px 10px;
+    }
+
+    #cc_div input[disabled] {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    #cc_div td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+</style>
+<script>
+    rebind();
+
+    function show_clean_table(index) {
+        var data = {index: index};
+        $.ajax({
+            url: 'show_clean_content',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                $('.qds_btn[data-target="#ccModal2"]').attr('disabled', 'disabled');
+                $('.qds_btn[data-target="#ccModal3"]').attr('disabled', 'disabled');
+                $("#cc_table").html(data);
+            }
+        });
+    }
+
+    function enable_btn(elem) {
+        $('#cc_div .qds_btn[data-toggle="modal"]').removeAttr('disabled');
+        var source = $(elem).parent().siblings();
+        var target = $('#ccModal2 textarea');
+        target.eq(0).val('原始医案\n' +
+            '主症：' + source.eq(0).html() + '\n' +
+            '次症：' + source.eq(1).html() + '\n' +
+            '舌象：' + source.eq(2).html() + '\n' +
+            '脉象：' + source.eq(3).html() + '\n' +
+            '证型：' + source.eq(4).html() + '\n'
+        );
+        $.ajax({
+            url: 'filter',
+            type: 'POST',
+            data: JSON.stringify({
+                rcd_id: $('#cc_table .rd:checked').attr('id').split('_')[1],
+            }),
+            success: function (data) {
+                target = $('#ccModal2 input');
+                target.eq(0).val(data['main_sym']);
+                target.eq(1).val(data['add_sym']);
+                target.eq(2).val(data['tongue']);
+                target.eq(3).val(data['pulse']);
+                target.eq(4).val(data['syndrome']);
+            }
+        })
+    }
+
+    function update_clean() {
+        var target = $('#ccModal2 input');
+        if (target.eq(0).val() == '' && target.eq(1).val() == '' && target.eq(2).val() == '' && target.eq(3).val() == '') {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>无效样本！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        var data = {
+            rcd_id: $('#cc_table .rd:checked').attr('id').split('_')[1],
+            main_sym: target.eq(0).val(),
+            add_sym: target.eq(1).val(),
+            tongue: target.eq(2).val(),
+            pulse: target.eq(3).val(),
+            syndrome: target.eq(4).val(),
+        };
+        $.ajax({
+            url: 'update_clean',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    show_clean_table(1);
+                    $('#ccModal2').modal('hide');
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>修改医案成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>修改医案失败</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+
+    function delete_clean() {
+        var data = {
+            rcd_id: $('#cc_table .rd:checked').attr('id').split('_')[1],
+        };
+        $.ajax({
+            url: 'delete_clean',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    show_clean_table(1);
+                    $('#ccModal3').modal('hide');
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>删除医案成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>删除医案失败</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+</script>
+<div id="cc_div">
+    <div>
+        <div>
+            <div class="nav_top">
+                <span>样本采集></span>
+                <span>医案清洗</span>
+            </div>
+            <label class="nav_label">原始医案</label>
+        </div>
+        <div>
+            <input type="button" class="qds_btn" value="删除" disabled="disabled" data-toggle="modal"
+                   data-target="#ccModal3">
+            <input type="button" class="qds_btn" value="清洗" disabled="disabled" data-toggle="modal"
+                   data-target="#ccModal2">
+        </div>
+    </div>
+    <div style="padding-right: 32px" id="cc_table">
+        <table class="table table-hover table_style" style="margin-left: 32px;table-layout: fixed;margin-right: 30px;">
+            <thead>
+            <tr>
+                <th style="width: 5%"></th>
+                <th style="width: 25%">主症</th>
+                <th style="width: 25%">次症</th>
+                <th style="width: 15%">舌象</th>
+                <th style="width: 15%">脉象</th>
+                <th style="width: 15%">证型</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in  res %}
+                <tr>
+                    <td><input type="radio" class="rd" name="cln_rd" id="cln_{{ i['rcd_id'] }}"
+                               onclick="enable_btn('#cln_{{ i['rcd_id'] }}')"><label
+                            for="cln_{{ i['rcd_id'] }}"></label>
+                    </td>
+                    <td title="{{ i['main_sym'] }}">{{ i['main_sym'] }}</td>
+                    <td title="{{ i['add_sym'] }}">{{ i['add_sym'] }}</td>
+                    <td title="{{ i['tongue'] }}">{{ i['tongue'] }}</td>
+                    <td title="{{ i['pulse'] }}">{{ i['pulse'] }}</td>
+                    <td title="{{ i['syndrome'] }}">{{ i['syndrome'] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div id="cc_page" style="margin-left: 32px"></div>
+        <script>
+            layui.use(['laypage', 'layer'], function () {
+                var laypage = layui.laypage
+                    , layer = layui.layer;
+                laypage.render({
+                    elem: 'cc_page'
+                    , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                    , count: {{ count }}
+                    , curr: {{ index}}
+                    , limit: 10
+                    , theme: '#1E9FFF'
+                    , jump: function (obj, first) {
+                        if (!first) {
+                            show_clean_table(obj.curr);
+                        }
+                    }
+                });
+            });
+        </script>
+    </div>
+    <div class="modal fade" id="ccModal2">
+        <div class="modal-dialog" style="width: 600px;height: 540px">
+            <div class="modal-content" style="width: 100%;height: 100%">
+                <div class="modal-header" style="border: 0px;text-align: center;">
+                    <label class="modal-title" style="font-size: 18px;font-weight: bold;color: #081839">修改医案</label>
+                </div>
+                <div class="modal-body" style="border: 0px;text-align: center;">
+                    <div>
+                        <textarea class="form-control" style="width: 545px;margin: 0 0 10px 10px;" rows="8"
+                                  readonly></textarea>
+                    </div>
+                    <div>
+                        <label><strong>主症</strong></label>
+                        <input type="text" class="form-control auto_symptom">
+                    </div>
+                    <div>
+                        <label><strong>次症</strong></label>
+                        <input type="text" class="form-control auto_symptom">
+                    </div>
+                    <div>
+                        <label><strong>舌象</strong></label>
+                        <input type="text" class="form-control auto_tongue">
+                    </div>
+                    <div>
+                        <label><strong>脉象</strong></label>
+                        <input type="text" class="form-control auto_pulse">
+                    </div>
+                    <div>
+                        <label><strong>证型</strong></label>
+                        <input type="text" class="form-control auto_syndrome">
+                    </div>
+                </div>
+                <div class="modal-footer" style="border: 0px;text-align: center;padding: 0;">
+                    <button type="button" class="qds_btn" onclick="return_main('#ccModal2')">
+                        取消
+                    </button>
+                    <button type="button" class="qds_btn" onclick="update_clean()">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ccModal3">
+        <div class="modal-dialog" style="width: 260px;height: 192px">
+            <div class="modal-content" style="width: 100%;height: 100%;">
+                <div class="modal-header" style="border: 0px;">
+                    <label class="modal-title" style="font-size: 18px;font-weight: bold;color: #081839">温馨提示</label>
+                </div>
+                <div class="modal-body" style="border: 0px;text-align: center;">
+                    <label style="font-size: 15px;color: #081839">确定删除此医案？</label>
+                </div>
+                <div class="modal-footer" style="border: 0px;text-align: center;">
+                    <button type="button" class="qds_btn" onclick="return_main('#ccModal3')">
+                        取消
+                    </button>
+                    <button type="button" class="qds_btn" onclick="delete_clean()">
+                        删除
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,200 @@
+<div id="ic">
+    <div>
+        <div class="nav_top">
+            <span>量化诊断></span>
+            <span>结果分析</span>
+        </div>
+        <label class="nav_label">结果分析</label>
+        <div id="qds_tab" style="margin-bottom: 30px;padding-top: 5px">
+            <ul class="nav nav-tabs navbar-left">
+                <li class="active">
+                    <a href="#graph" data-toggle="tab"><span>关系网络</span></a>
+                </li>
+                <li>
+                    <a href="#bar" data-toggle="tab"><span>柱图分析</span></a>
+                </li>
+                <li>
+                    <a href="#pie" data-toggle="tab"><span>饼图分析</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="graph" style="height: 100%">
+            </div>
+            <div class="tab-pane fade" id="bar" style="height: 100%">
+            </div>
+            <div class="tab-pane fade" id="pie" style="height: 100%">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var pie = echarts.init(document.getElementById("pie"));
+    var bar = echarts.init(document.getElementById("bar"));
+    var graph = echarts.init(document.getElementById("graph"));
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        pie.resize();
+        bar.resize();
+        graph.resize();
+    });
+    graph.showLoading();
+    $.ajax({
+        url: 'get_graph',
+        type: 'GET',
+        success: function (data) {
+            if (data['code'] != '-1') {
+                graph.hideLoading();
+                xml = echarts.dataTool.gexf.parse(data);
+                var categories = [{name: '症状'}, {name: '舌象'}, {name: '脉象'}, {name: '证型'}];
+                xml.nodes.forEach(function (node) {
+                    node.itemStyle = null;
+                    node.value = node.symbolSize;
+                    node.symbolSize = Math.log2(node.symbolSize);
+                    node.label = {
+                        normal: {
+                            show: node.symbolSize > 20
+                        }
+                    };
+                    node.category = node.attributes.modularity_class;
+                });
+                var graph_option = {
+                    title: {
+                        text: "关系网络",
+                        top: "top",
+                        left: "center"
+                    },
+                    tooltip: {},
+                    animationDuration: 1500,
+                    animationEasingUpdate: 'quinticInOut',
+                    legend: [{
+                        data: categories.map(function (a) {
+                            return a.name;
+                        }),
+                        bottom: "10%",
+                        left: "center"
+                    }],
+                    series: [
+                        {
+                            name: "关系网络",
+                            type: "graph",
+                            layout: "force",
+                            force: {
+                                repulsion: 1000
+                            },
+                            draggable: true,
+                            data: xml.nodes,
+                            links: xml.links,
+                            categories: categories,
+                            label: {
+                                normal: {
+                                    position: 'right',
+                                    formatter: '{b}'
+                                }
+                            },
+                            lineStyle: {
+                                normal: {
+                                    color: 'source',
+                                    curveness: 0.1
+                                }
+                            }
+                        }
+                    ]
+                };
+                graph.setOption(graph_option);
+            } else {
+                toastr.options.timeOut = "2000";
+                toastr.options.closeButton = true;
+                toastr['error']('<small>图表初始化失败</small>', '', {positionClass: 'toast-bottom-center'});
+            }
+        }
+    });
+    $.ajax({
+        url: 'get_data',
+        type: 'GET',
+        success: function (data) {
+            if (data['code'] != '-1') {
+                var pie_data = data['pie_data'];
+                var bar_data = data['bar_data'];
+                var pie_option = {
+                    title: {
+                        text: '特征频数统计',
+                        x: 'center'
+                    },
+                    tooltip: {
+                        trigger: 'item',
+                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                    },
+                    legend: {
+                        type: 'scroll',
+                        orient: 'vertical',
+                        right: 10,
+                        top: 20,
+                        bottom: 20,
+                        data: pie_data.legend,
+                        selected: pie_data.select,
+                    },
+                    series: [
+                        {
+                            name: '特征',
+                            type: 'pie',
+                            radius: '55%',
+                            center: ['40%', '50%'],
+                            data: pie_data.series,
+                            itemStyle: {
+                                emphasis: {
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                }
+                            }
+                        }
+                    ]
+                };
+                if (pie_option && typeof pie_option === "object") {
+                    pie.setOption(pie_option, true);
+                }
+                var bar_option = {
+                    title: {
+                        text: '高频特征分布',
+                        x: 'center'
+                    },
+                    dataset: {
+                        source: bar_data
+                    },
+                    grid: {containLabel: true},
+                    xAxis: {name: '数量'},
+                    yAxis: {type: 'category'},
+                    visualMap: {
+                        orient: 'horizontal',
+                        left: 'center',
+                        min: 1,
+                        max: 10000,
+                        text: ['High Score', 'Low Score'],
+                        dimension: 0,
+                        inRange: {
+                            color: ['#6AB0B8', '#E15457']
+                        }
+                    },
+                    series: [
+                        {
+                            type: 'bar',
+                            encode: {
+                                x: 'num',
+                                y: 'name'
+                            }
+                        }
+                    ]
+                };
+                if (bar_option && typeof bar_option === "object") {
+                    bar.setOption(bar_option, true);
+                }
+            } else {
+                toastr.options.timeOut = "2000";
+                toastr.options.closeButton = true;
+                toastr['error']('<small>图标初始化失败</small>', '', {positionClass: 'toast-bottom-center'});
+            }
+        }
+    });
+</script>

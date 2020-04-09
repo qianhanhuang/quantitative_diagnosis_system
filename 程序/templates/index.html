@@ -1,0 +1,466 @@
+<html lang="en">
+<head>
+    <title>主页</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../static/css/bootstrap.css">
+    <link rel="stylesheet" href="../static/css/toastr.css">
+    <link rel="stylesheet" href="../static/css/main.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/qds.css">
+    <link rel="stylesheet" href="../static/css/jquery-ui.min.css">
+    <link rel="stylesheet" href="../static/css/layui.css">
+    <script src="../static/js/jquery.js"></script>
+    <script src="../static/js/bootstrap.js"></script>
+    <script src="../static/js/toastr.js"></script>
+    <script src="../static/js/jquery-ui.min.js"></script>
+    <script src="../static/js/layui.all.js"></script>
+    <script src="../static/js/echarts.min.js"></script>
+    <script src="../static/js/dataTool.min.js"></script>
+    <script src="../static/js/bmap.min.js"></script>
+    <style>
+        .head_btn {
+            background-color: #fff;
+            border: #fff solid 0px;
+            font-size: 16px;
+            color: #081839;
+            padding: 10px 15px 10px 15px;
+            margin-top: 9px;
+            outline-color: #fff;
+        }
+
+        .head_btn_active {
+            background-color: #203d79;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .centerbtn {
+            margin-left: 40%;
+        }
+    </style>
+</head>
+
+
+<body style="background-color: #fff">
+<div id="wrapper">
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="brand" style="padding: 12px 15px;">
+            <img src="../static/img/logo.jpg" alt="Klorofil Logo" class="img-responsive logo"
+                 style="width: 50px;height:35px;float:left;margin-top: 0px">
+            <label style="float: left;color: #081839;font-size: 18px;margin-top: 4px;margin-left: 30px">中医藏象辨证量化诊断系统</label>
+        </div>
+        <div class="container-fluid">
+            <div id="navbar-menu">
+                <button class="head_btn head_btn_active" id="head_one" href="#samp_content" data-toggle="tab"
+                        onclick="change_active('head_one')" style="margin-left: 30px">
+                    样本采集模块
+                </button>
+                <button class="head_btn" id="head_two" href="#diag_content" data-toggle="tab"
+                        onclick="change_active('head_two')">
+                    量化诊断模块
+                </button>
+                <button class="head_btn" id="head_three" href="#algo_content" data-toggle="tab"
+                        onclick="change_active('head_three')">
+                    算法评估模块
+                </button>
+                <div style="float: right;margin-top: 19px">
+                    <input type="hidden" value="654321789" id="com_id">
+                    <img src="../static/img/zhanghaoqiehuanputong.png" style="">
+                    <label style="font-size: 14px;color: #081839;font-weight: 100;">【{{ res.username }}，</label>
+                    <a href="/logout"
+                       style="font-size: 14px;color: #337ab7;font-weight: 100;cursor: pointer;">退出】</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mainContent" class="tab-content">
+        <div class="tab-pane fade in active" id="samp_content">
+            <div id="samp_manage" class="sidebar">
+                <div class="sidebar-scroll" style="margin-top: 35px">
+                    <nav>
+                        <ul class="nav">
+                            <li>
+                                <a href="#" class="" onclick="show_clean_content()"><i
+                                        class="lnr lnr-menu"></i><span>医案清洗</span></a>
+                            </li>
+                            <li>
+                                <a href="#dictManage" data-toggle="collapse" class="collapsed"><i
+                                        class="lnr lnr-bookmark"></i> <span>字典维护</span> <i
+                                        class="icon-submenu lnr lnr-chevron-left"></i></a>
+                                <div id="dictManage" class="collapse ">
+                                    <ul class="nav">
+                                        <li><a href="#" onclick="show_symptom_content()"><span>症状字典</span></a></li>
+                                        <li><a href="#" onclick="show_tongue_content()"><span>舌象字典</span></a></li>
+                                        <li><a href="#" onclick="show_pulse_content()"><span>脉象字典</span></a></li>
+                                        <li><a href="#" onclick="show_syndrome_content()"><span>证型字典</span></a></li>
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="main" style="background-color: #fff;padding-top: 38px;width: calc(100% - 180px);">
+                <div id="samp_main_content" class="main-content" style="padding: 10px 10px">
+                    <div style="height: calc(100% - 80px);width: calc(100% + 40px);margin-left:-15px;background-image: linear-gradient(#ffffff, #d7eeff)">
+                        <img src="../static/img/weicome.png"
+                             style="float:left;margin-top: 10%;margin-left: calc(50% - 482px);">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="diag_content">
+            <div id="diag_manage" class="sidebar">
+                <div class="sidebar-scroll" style="margin-top: 35px">
+                    <nav>
+                        <ul class="nav">
+                            <li>
+                                <a href="#" class="" onclick="show_input_content()"><i
+                                        class="lnr lnr-pencil"></i><span>医案录入</span></a>
+                            </li>
+                            <li>
+                                <a href="#" class="" onclick="show_diagnose_content()"><i
+                                        class="lnr lnr-list"></i><span>量化诊断</span></a>
+                            </li>
+
+                            <li>
+                                <a href="#" class="" onclick="show_result_content()"><i
+                                        class="lnr lnr-pie-chart"></i><span>结果分析</span></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="main" style="background-color: #fff;padding-top: 38px;width: calc(100% - 180px);">
+                <div id="diag_main_content" class="main-content" style="padding: 10px 10px">
+                    <div style="height: calc(100% - 80px);width: calc(100% + 40px);margin-left:-15px;background-image: linear-gradient(#ffffff, #d7eeff)">
+                        <img src="../static/img/weicome.png"
+                             style="float:left;margin-top: 10%;margin-left: calc(50% - 482px);">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="algo_content">
+            <div id="algo_manage" class="sidebar">
+                <div class="sidebar-scroll" style="margin-top: 35px">
+                    <nav>
+                        <ul class="nav">
+                            <li>
+                                <a href="#" class="" onclick="show_train_content()"><i
+                                        class="lnr lnr-history"></i><span>训练日志</span></a>
+                            </li>
+                            <li>
+                                <a href="#" class="" onclick="show_algorithm_content()"><i
+                                        class="lnr lnr-chart-bars"></i><span>算法指标</span></a>
+                            </li>
+                            <li>
+                                <a href="#" class="" onclick="show_display_content()"><i
+                                        class="lnr lnr-tablet"></i><span>模型演进</span></a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="main" style="background-color: #fff;padding-top: 38px;width: calc(100% - 180px);">
+                <div id="algo_main_content" class="main-content" style="padding: 10px 10px">
+                    <div style="height: calc(100% - 80px);width: calc(100% + 40px);margin-left:-15px;background-image: linear-gradient(#ffffff, #d7eeff)">
+                        <img src="../static/img/weicome.png"
+                             style="float:left;margin-top: 10%;margin-left: calc(50% - 482px);">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <footer>
+        <div class="container-fluid">
+            <p class="copyright">南京中医药大学</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+    function show_clean_content() {
+        $.ajax({
+            url: 'show_clean_content',
+            type: 'GET',
+            success: function (data) {
+                $("#samp_main_content").html(data);
+            }
+        })
+    }
+
+    function show_symptom_content() {
+        $.ajax({
+            url: 'show_symptom_content',
+            type: 'GET',
+            success: function (data) {
+                $("#samp_main_content").html(data);
+            }
+        })
+    }
+
+    function show_pulse_content() {
+        $.ajax({
+            url: 'show_pulse_content',
+            type: 'GET',
+            success: function (data) {
+                $("#samp_main_content").html(data);
+            }
+        })
+    }
+
+    function show_tongue_content() {
+        $.ajax({
+            url: 'show_tongue_content',
+            type: 'GET',
+            success: function (data) {
+                $("#samp_main_content").html(data);
+            }
+        })
+    }
+
+    function show_syndrome_content() {
+        $.ajax({
+            url: 'show_syndrome_content',
+            type: 'GET',
+            success: function (data) {
+                $("#samp_main_content").html(data);
+            }
+        })
+    }
+
+    function show_input_content() {
+        $.ajax({
+            url: 'show_input_content',
+            type: 'GET',
+            success: function (data) {
+                $("#diag_main_content").html(data);
+            }
+        })
+    }
+
+    function show_diagnose_content() {
+        $.ajax({
+            url: 'show_diagnose_content',
+            type: 'GET',
+            success: function (data) {
+                $("#diag_main_content").html(data);
+            }
+        })
+    }
+
+    function show_result_content() {
+        $.ajax({
+            url: 'show_result_content',
+            type: 'GET',
+            success: function (data) {
+                $("#diag_main_content").html(data);
+            }
+        })
+    }
+
+    function show_algorithm_content() {
+        $.ajax({
+            url: 'show_algorithm_content',
+            type: 'GET',
+            success: function (data) {
+                $("#algo_main_content").html(data);
+            }
+        })
+    }
+
+    function show_display_content() {
+        $.ajax({
+            url: 'show_display_content',
+            type: 'GET',
+            success: function (data) {
+                $("#algo_main_content").html(data);
+            }
+        })
+    }
+
+    function show_train_content() {
+        $.ajax({
+            url: 'show_train_content',
+            type: 'GET',
+            success: function (data) {
+                $("#algo_main_content").html(data);
+            }
+        })
+    }
+
+    function split(val) {
+        return val.split(/,\s*/);
+    }
+
+    function extractLast(term) {
+        return split(term).pop();
+    }
+
+    function rebind() {
+        $('.auto_pulse').autocomplete({
+            source: function (request, response) {
+                var data = {
+                    abbr: extractLast(request.term),
+                }
+                $.ajax({
+                    url: 'search_pulse',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        if (data['code'] != "-1") {
+                            response(data);
+                        } else {
+                            toastr.options.timeOut = "2000";
+                            toastr.options.closeButton = true;
+                            toastr['error']('<small>查询脉象失败</small>', '', {positionClass: 'toast-bottom-center'});
+                        }
+                    }
+                })
+            },
+            search: function () {
+                var term = extractLast(this.value);
+                if (term.length < 2) {
+                    return false;
+                }
+            },
+            select: function (event, ui) {
+                var terms = split(this.value);
+                terms.pop();
+                terms.push(ui.item.value);
+                terms.push("");
+                this.value = terms.join(",");
+                return false;
+            }
+        });
+        $('.auto_tongue').autocomplete({
+            source: function (request, response) {
+                var data = {
+                    abbr: extractLast(request.term),
+                }
+                $.ajax({
+                    url: 'search_tongue',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        if (data['code'] != "-1") {
+                            response(data);
+                        } else {
+                            toastr.options.timeOut = "2000";
+                            toastr.options.closeButton = true;
+                            toastr['error']('<small>查询舌象失败</small>', '', {positionClass: 'toast-bottom-center'});
+                        }
+                    }
+                })
+            },
+            search: function () {
+                var term = extractLast(this.value);
+                if (term.length < 2) {
+                    return false;
+                }
+            },
+            select: function (event, ui) {
+                var terms = split(this.value);
+                terms.pop();
+                terms.push(ui.item.value);
+                terms.push("");
+                this.value = terms.join(",");
+                return false;
+            }
+        });
+        $('.auto_symptom').autocomplete({
+            source: function (request, response) {
+                var data = {
+                    abbr: extractLast(request.term),
+                }
+                $.ajax({
+                    url: 'search_symptom',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        if (data['code'] != "-1") {
+                            response(data);
+                        } else {
+                            toastr.options.timeOut = "2000";
+                            toastr.options.closeButton = true;
+                            toastr['error']('<small>查询症状失败</small>', '', {positionClass: 'toast-bottom-center'});
+                        }
+                    }
+                })
+            },
+            search: function () {
+                var term = extractLast(this.value);
+                if (term.length < 2) {
+                    return false;
+                }
+            },
+            focus: function () {
+                return false;
+            },
+            select: function (event, ui) {
+                var terms = split(this.value);
+                terms.pop();
+                terms.push(ui.item.value);
+                terms.push("");
+                this.value = terms.join(",");
+                return false;
+            }
+        });
+        $('.auto_syndrome').autocomplete({
+            source: function (request, response) {
+                var data = {
+                    abbr: extractLast(request.term),
+                }
+                $.ajax({
+                    url: 'search_syndrome',
+                    type: 'POST',
+                    data: JSON.stringify(data),
+                    success: function (data) {
+                        if (data['code'] != "-1") {
+                            response(data);
+                        } else {
+                            toastr.options.timeOut = "2000";
+                            toastr.options.closeButton = true;
+                            toastr['error']('<small>查询证型失败</small>', '', {positionClass: 'toast-bottom-center'});
+                        }
+                    }
+                })
+            },
+            search: function () {
+                var term = extractLast(this.value);
+                if (term.length < 2) {
+                    return false;
+                }
+            },
+            focus: function () {
+                return false;
+            },
+            select: function (event, ui) {
+                var terms = split(this.value);
+                terms.pop();
+                terms.push(ui.item.value);
+                terms.push("");
+                this.value = terms.join(",");
+                return false;
+            }
+        });
+    }
+
+    function return_main(selector) {
+        $(selector).modal('hide');
+        $(selector + ' input').val('');
+    }
+
+    function change_active(btn_id) {
+        $("#head_one").removeClass("head_btn_active");
+        $("#head_two").removeClass("head_btn_active");
+        $("#head_three").removeClass("head_btn_active");
+        $("#" + btn_id).addClass("head_btn_active");
+    }
+</script>
+</body>
+</html>

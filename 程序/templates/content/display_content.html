@@ -1,0 +1,68 @@
+<div id="dpc_div">
+    <div>
+        <div>
+            <div class="nav_top">
+                <span>算法评估></span>
+                <span>模型演进</span>
+            </div>
+            <label class="nav_label">模型演进</label>
+        </div>
+    </div>
+    <div id="line" style="height: 70%">
+    </div>
+</div>
+<script>
+    var myChart = echarts.init(document.getElementById("line"));
+    var option = {
+        tooltip: {
+            trigger: 'axis'
+        },
+        legend: {
+            data: ['AdaBoost', '随机森林', 'CNN', '谱聚类']
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        toolbox: {
+            feature: {
+                saveAsImage: {}
+            }
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: [{% for i in time %}'{{ i }}',{% endfor %}]
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name: 'AdaBoost',
+                type: 'line',
+                data: {{ ab }}
+            },
+            {
+                name: '随机森林',
+                type: 'line',
+                data: {{ rf }}
+            },
+            {
+                name: 'CNN',
+                type: 'line',
+                data: {{ cnn }}
+            },
+            {
+                name: '谱聚类',
+                type: 'line',
+                data: {{ sp }}
+            }
+        ]
+    };
+    if (option && typeof option === "object") {
+        myChart.setOption(option, true);
+    }
+</script>

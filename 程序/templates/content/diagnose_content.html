@@ -1,0 +1,221 @@
+<style>
+    #dnc_div .qds_btn[data-toggle='modal'] {
+        float: right;
+        margin: 5px 0 5px 5px;
+    }
+
+    .ui-autocomplete {
+        z-index: 11111;
+        max-width: 500px;
+        overflow-y: auto;
+        overflow-x: scroll;
+        font-size: 14px;
+    }
+
+    #dncModal2 input[type="text"] {
+        display: inline-block;
+        padding: 0 0 0 10px;
+        height: 30px;
+        width: 500px;
+        margin: 0 0 10px 10px;
+    }
+
+    #dnc_div input[disabled] {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+    #dnc_div td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+</style>
+<script>
+    rebind();
+
+    function show_diagnose_table(index) {
+        var data = {index: index};
+        $.ajax({
+            url: 'show_diagnose_content',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                $('.qds_btn[data-target="#dncModal2"]').attr('disabled', 'disabled');
+                $('.qds_btn[data-target="#dncModal3"]').attr('disabled', 'disabled');
+                $("#dnc_table").html(data);
+            }
+        });
+    }
+
+    function enable_btn(elem) {
+        $('#dnc_div .qds_btn[data-toggle="modal"]').removeAttr('disabled');
+        var source = $(elem).parent().siblings();
+        var target = $('#dncModal2 textarea');
+        target.eq(0).val('原始医案\n' +
+            '主症：' + source.eq(0).html() + '\n' +
+            '次症：' + source.eq(1).html() + '\n' +
+            '舌象：' + source.eq(2).html() + '\n' +
+            '脉象：' + source.eq(3).html() + '\n' +
+            '证型：' + source.eq(4).html() + '\n'
+        );
+        target.eq(1).val('');
+        $.ajax({
+            url: 'filter',
+            type: 'POST',
+            data: JSON.stringify({
+                rcd_id: $('#dnc_table .rd:checked').attr('id').split('_')[1],
+            }),
+            success: function (data) {
+                target = $('#dncModal2 input');
+                target.eq(0).val(data['main_sym']);
+                target.eq(1).val(data['add_sym']);
+                target.eq(2).val(data['tongue']);
+                target.eq(3).val(data['pulse']);
+                target.eq(4).val(data['syndrome']);
+            }
+        })
+    }
+
+
+    function diagnose() {
+        var source = $('#dncModal2 input');
+        if (source.eq(0).val() == '' && source.eq(1).val() == '' && source.eq(2).val() == '' && source.eq(3).val() == '') {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>无效输入！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        $.ajax({
+            url: 'predict',
+            type: 'POST',
+            data: JSON.stringify({
+                main_sym: source.eq(0).val(),
+                add_sym: source.eq(1).val(),
+                ton: source.eq(2).val(),
+                pul: source.eq(3).val()
+            }),
+            success: function (data) {
+                var target = $('#dncModal2 textarea');
+                target.eq(1).val('诊断结果\n' +
+                    'AdaBoost诊断：' + data[0].toString() + '\n' +
+                    '随机森林诊断：' + data[1].toString() + '\n' +
+                    '卷积神经网络诊断：' + data[2].toString() + '\n' +
+                    '谱聚类诊断：' + data[3].toString() + '\n'
+                );
+            }
+        })
+    }
+</script>
+<div id="dnc_div">
+    <div>
+        <div>
+            <div class="nav_top">
+                <span>量化诊断></span>
+                <span>量化诊断</span>
+            </div>
+            <label class="nav_label">已录医案</label>
+        </div>
+        <div>
+            <input type="button" class="qds_btn" value="诊断" disabled="disabled" data-toggle="modal"
+                   data-target="#dncModal2">
+        </div>
+    </div>
+    <div style="padding-right: 32px" id="dnc_table">
+        <table class="table table-hover table_style" style="margin-left: 32px;table-layout: fixed;margin-right: 30px;">
+            <thead>
+            <tr>
+                <th style="width: 5%"></th>
+                <th style="width: 25%">主症</th>
+                <th style="width: 25%">次症</th>
+                <th style="width: 15%">舌象</th>
+                <th style="width: 15%">脉象</th>
+                <th style="width: 15%">证型</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in  res %}
+                <tr>
+                    <td><input type="radio" class="rd" name="dnc_rd" id="dnc_{{ i['rcd_id'] }}"
+                               onclick="enable_btn('#dnc_{{ i['rcd_id'] }}')"><label
+                            for="dnc_{{ i['rcd_id'] }}"></label>
+                    </td>
+                    <td title="{{ i['main_sym'] }}">{{ i['main_sym'] }}</td>
+                    <td title="{{ i['add_sym'] }}">{{ i['add_sym'] }}</td>
+                    <td title="{{ i['tongue'] }}">{{ i['tongue'] }}</td>
+                    <td title="{{ i['pulse'] }}">{{ i['pulse'] }}</td>
+                    <td title="{{ i['syndrome'] }}">{{ i['syndrome'] }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div id="dnc_page" style="margin-left: 32px"></div>
+        <script>
+            layui.use(['laypage', 'layer'], function () {
+                var laypage = layui.laypage
+                    , layer = layui.layer;
+                laypage.render({
+                    elem: 'dnc_page'
+                    , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                    , count: {{ count }}
+                    , curr: {{ index }}
+                    , limit: 10
+                    , theme: '#1E9FFF'
+                    , jump: function (obj, first) {
+                        if (!first) {
+                            show_diagnose_table(obj.curr);
+                        }
+                    }
+                });
+            });
+        </script>
+    </div>
+    <div class="modal fade" id="dncModal2">
+        <div class="modal-dialog" style="width: 600px;height: 740px">
+            <div class="modal-content" style="width: 100%;height: 100%">
+                <div class="modal-header" style="border: 0px;text-align: center;">
+                    <label class="modal-title" style="font-size: 18px;font-weight: bold;color: #081839">诊断</label>
+                </div>
+                <div class="modal-body" style="border: 0px;text-align: center;">
+                    <div>
+                        <textarea class="form-control" style="width: 545px;margin: 0 0 10px 10px;" rows="8"
+                                  readonly></textarea>
+                    </div>
+                    <div>
+                        <label><strong>主症</strong></label>
+                        <input type="text" class="form-control auto_symptom">
+                    </div>
+                    <div>
+                        <label><strong>次症</strong></label>
+                        <input type="text" class="form-control auto_symptom">
+                    </div>
+                    <div>
+                        <label><strong>舌象</strong></label>
+                        <input type="text" class="form-control auto_tongue">
+                    </div>
+                    <div>
+                        <label><strong>脉象</strong></label>
+                        <input type="text" class="form-control auto_pulse">
+                    </div>
+                    <div>
+                        <label><strong>证型</strong></label>
+                        <input type="text" class="form-control auto_syndrome">
+                    </div>
+                    <div>
+                        <textarea class="form-control" style="width: 545px;margin: 0 0 10px 10px;" rows="8"
+                                  readonly></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border: 0px;text-align: center;padding: 0;">
+                    <button type="button" class="qds_btn" onclick="return_main('#dncModal2')">
+                        取消
+                    </button>
+                    <button type="button" class="qds_btn" onclick="diagnose()">
+                        诊断
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

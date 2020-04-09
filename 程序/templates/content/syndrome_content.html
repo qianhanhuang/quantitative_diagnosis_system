@@ -1,0 +1,291 @@
+<style>
+    #syn_div .qds_btn[data-toggle='modal'] {
+        float: right;
+        margin: 5px 0 5px 5px;
+    }
+
+    .ui-autocomplete {
+        z-index: 11111;
+        max-width: 220px;
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: scroll;
+        font-size: 14px;
+    }
+
+    #syn_div .form-control {
+        display: inline-block;
+        padding: 0 0 0 10px;
+        height: 30px;
+        width: 220px;
+        margin: 0 0 10px 10px;
+    }
+
+    #syn_div input[disabled] {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+</style>
+<script>
+    rebind();
+
+    function show_syndrome_table(index) {
+        var data = {index: index};
+        $.ajax({
+            url: 'show_syndrome_content',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                $('.qds_btn[data-target="#synModal2"]').attr('disabled', 'disabled');
+                $('.qds_btn[data-target="#synModal3"]').attr('disabled', 'disabled');
+                $("#syn_table").html(data);
+            }
+        });
+    }
+
+    function enable_btn(elem) {
+        $('#syn_div .qds_btn[data-toggle="modal"]').removeAttr('disabled');
+        var source = $(elem).parent().siblings();
+        var target = $('#synModal2 input');
+        target.eq(0).val(source.eq(0).html());
+        target.eq(1).val(source.eq(1).html());
+        target.eq(2).val(source.eq(2).html());
+    }
+
+    function add_syndrome() {
+        var target = $('#synModal1 input');
+        if (target.eq(0).val() == '' || target.eq(1).val() == '' || target.eq(2).val() == '') {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>请完善表单！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        var data = {
+            syn_name: target.eq(0).val(),
+            abbr: target.eq(1).val(),
+            std_name: target.eq(2).val(),
+        };
+        $.ajax({
+            url: 'add_syndrome',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    show_syndrome_table(1);
+                    $('#synModal1').modal('hide');
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>添加证型成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>' + data['message'] + '</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+
+    function update_syndrome() {
+        var target = $('#synModal2 input');
+        if (target.eq(0).val() == '' || target.eq(1).val() == '' || target.eq(2).val() == '') {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>请完善表单！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        var data = {
+            syn_id: $('#syn_table .rd:checked').attr('id').split('_')[1],
+            syn_name: target.eq(0).val(),
+            abbr: target.eq(1).val(),
+            std_name: target.eq(2).val(),
+        };
+        $.ajax({
+            url: 'update_syndrome',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    show_syndrome_table(1);
+                    $('#synModal2').modal('hide');
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>修改证型成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>' + data['message'] + '</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+
+    function delete_syndrome() {
+        var data = {
+            syn_id: $('#syn_table .rd:checked').attr('id').split('_')[1],
+        };
+        $.ajax({
+            url: 'delete_syndrome',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    show_syndrome_table(1);
+                    $('#synModal3').modal('hide');
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>删除证型成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>删除证型失败</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+</script>
+<div id="syn_div">
+    <div>
+        <div>
+            <div class="nav_top">
+                <span>样本采集></span>
+                <span>字典维护></span>
+                <span>证型字典</span>
+            </div>
+            <label class="nav_label">证型列表</label>
+        </div>
+        <div>
+            <input type="button" class="qds_btn" value="删除" disabled="disabled" data-toggle="modal"
+                   data-target="#synModal3">
+            <input type="button" class="qds_btn" value="修改" disabled="disabled" data-toggle="modal"
+                   data-target="#synModal2">
+            <input type="button" class="qds_btn" value="新增" data-toggle="modal" data-target="#synModal1">
+        </div>
+    </div>
+    <div style="padding-right: 32px" id="syn_table">
+        <table class="table table-hover table_style" style="margin-left: 32px;">
+            <thead>
+            <tr>
+                <th></th>
+                <th>名称</th>
+                <th>缩写</th>
+                <th>标准</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in  res %}
+                <tr>
+                    <td><input type="radio" class="rd" name="syn_rd" id="syn_{{ i.syn_id }}"
+                               onclick="enable_btn('#syn_{{ i.syn_id }}')"><label for="syn_{{ i.syn_id }}"></label>
+                    </td>
+                    <td>{{ i.syn_name }}</td>
+                    <td>{{ i.abbr }}</td>
+                    <td>{{ i.std_name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div id="syn_page" style="margin-left: 32px"></div>
+        <script>
+            layui.use(['laypage', 'layer'], function () {
+                var laypage = layui.laypage
+                    , layer = layui.layer;
+                laypage.render({
+                    elem: 'syn_page'
+                    , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                    , count: {{ count }}
+                    , curr: {{ index}}
+                    , limit: 10
+                    , theme: '#1E9FFF'
+                    , jump: function (obj, first) {
+                        if (!first) {
+                            show_syndrome_table(obj.curr);
+                        }
+                    }
+                });
+            });
+        </script>
+    </div>
+    <div class="modal fade" id="synModal1">
+        <div class="modal-dialog" style="width: 380px;height: 260px">
+            <div class="modal-content" style="width: 100%;height: 100%">
+                <div class="modal-header" style="border: 0px;text-align: center;">
+                    <label class="modal-title" style="font-size: 18px;font-weight: bold;color: #081839">新增证型</label>
+                </div>
+                <div class="modal-body" style="border: 0px;text-align: center;">
+                    <div>
+                        <label><strong>名称</strong></label>
+                        <input type="text" class="form-control" placeholder="必填">
+                    </div>
+                    <div>
+                        <label><strong>缩写</strong></label>
+                        <input type="text" class="form-control" placeholder="必填">
+                    </div>
+                    <div>
+                        <label><strong>标准</strong></label>
+                        <input type="text" class="form-control auto_syndrome" placeholder="必填，可用拼音缩略">
+                    </div>
+                </div>
+                <div class="modal-footer" style="border: 0px;text-align: center;padding: 0;">
+                    <button type="button" class="qds_btn" onclick="return_main('#synModal1')">
+                        取消
+                    </button>
+                    <button type="button" class="qds_btn" onclick="add_syndrome()">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="synModal2">
+        <div class="modal-dialog" style="width: 380px;height: 260px">
+            <div class="modal-content" style="width: 100%;height: 100%">
+                <div class="modal-header" style="border: 0px;text-align: center;">
+                    <label class="modal-title" style="font-size: 18px;font-weight: bold;color: #081839">修改证型</label>
+                </div>
+                <div class="modal-body" style="border: 0px;text-align: center;">
+                    <div>
+                        <label><strong>名称</strong></label>
+                        <input type="text" class="form-control" placeholder="必填">
+                    </div>
+                    <div>
+                        <label><strong>缩写</strong></label>
+                        <input type="text" class="form-control" placeholder="必填">
+                    </div>
+                    <div>
+                        <label><strong>标准</strong></label>
+                        <input type="text" class="form-control auto_syndrome" placeholder="必填，可用拼音缩略">
+                    </div>
+                </div>
+                <div class="modal-footer" style="border: 0px;text-align: center;padding: 0;">
+                    <button type="button" class="qds_btn" onclick="return_main('#synModal2')">
+                        取消
+                    </button>
+                    <button type="button" class="qds_btn" onclick="update_syndrome()">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="synModal3">
+        <div class="modal-dialog" style="width: 260px;height: 192px">
+            <div class="modal-content" style="width: 100%;height: 100%;">
+                <div class="modal-header" style="border: 0px;">
+                    <label class="modal-title" style="font-size: 18px;font-weight: bold;color: #081839">温馨提示</label>
+                </div>
+                <div class="modal-body" style="border: 0px;text-align: center;">
+                    <label style="font-size: 15px;color: #081839">确定删除此证型？</label>
+                </div>
+                <div class="modal-footer" style="border: 0px;text-align: center;">
+                    <button type="button" class="qds_btn" onclick="return_main('#synModal3')">
+                        取消
+                    </button>
+                    <button type="button" class="qds_btn" onclick="delete_syndrome()">
+                        删除
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

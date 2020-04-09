@@ -1,0 +1,329 @@
+<style>
+    #tnc_div .qds_btn[data-toggle='modal'] {
+        float: right;
+        margin: 5px 0 5px 5px;
+    }
+
+    .ui-autocomplete {
+        z-index: 11111;
+        max-width: 220px;
+        overflow-y: auto;
+        overflow-x: scroll;
+        font-size: 14px;
+    }
+
+    #tnc_div .form-control {
+        display: inline-block;
+        padding: 0 0 0 10px;
+        height: 30px;
+        width: 220px;
+        margin: 0 0 10px 10px;
+    }
+
+    #tnc_div input[disabled] {
+        opacity: 0.4;
+        cursor: not-allowed;
+    }
+
+</style>
+<script>
+    rebind();
+
+    function show_train_table(index) {
+        var data = {index: index};
+        $.ajax({
+            url: 'show_train_content',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                $('.qds_btn[data-target="#tncModal2"]').attr('disabled', 'disabled');
+                $('.qds_btn[data-target="#tncModal3"]').attr('disabled', 'disabled');
+                $("#tnc_table").html(data);
+            }
+        });
+    }
+
+    function enable_btn(elem) {
+        $('#tnc_div .qds_btn[data-toggle="modal"]').removeAttr('disabled');
+        var source = $(elem).parent().siblings();
+        var target = $('#tncModal2 input');
+        target.eq(0).val(source.eq(0).html());
+        target.eq(1).val(source.eq(1).html());
+        target.eq(2).val(source.eq(2).html());
+        target.eq(3).val(source.eq(3).html());
+        target.eq(4).val(source.eq(4).html().replace(' ', 'T'));
+    }
+
+    function add_train() {
+        var target = $('#tncModal1 input');
+        target.eq(0).val($('#tncModal1 option:selected').html());
+        if (target.eq(4).val() == '' || target.eq(2).val() == '' || target.eq(3).val() == '') {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>无效日志！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        var data = {
+            algo_name: target.eq(0).val(),
+            para: target.eq(1).val(),
+            indict: target.eq(2).val(),
+            accu: target.eq(3).val(),
+            time: target.eq(4).val(),
+        };
+        $.ajax({
+            url: 'add_train',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    show_train_table(1);
+                    $('#tncModal1').modal('hide');
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>添加日志成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>添加日志失败</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+
+    function update_train() {
+        var target = $('#tncModal2 input');
+        target.eq(0).val($('#tncModal2 option:selected').html());
+        if (target.eq(4).val() == '' || target.eq(2).val() == '' || target.eq(3).val() == '') {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>无效日志！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        var data = {
+            train_id: $('#tnc_table .rd:checked').attr('id').split('_')[1],
+            algo_name: target.eq(0).val(),
+            para: target.eq(1).val(),
+            indict: target.eq(2).val(),
+            accu: target.eq(3).val(),
+            time: target.eq(4).val(),
+        };
+        $.ajax({
+            url: 'update_train',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    show_train_table(1);
+                    $('#tncModal2').modal('hide');
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>修改日志成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>修改日志失败</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+
+    function delete_train() {
+        var data = {
+            train_id: $('#tnc_table .rd:checked').attr('id').split('_')[1],
+        };
+        $.ajax({
+            url: 'delete_train',
+            type: 'POST',
+            data: JSON.stringify(data),
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    show_train_table(1);
+                    $('#tncModal3').modal('hide');
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>删除日志成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>删除日志失败</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+</script>
+<div id="tnc_div">
+    <div>
+        <div>
+            <div class="nav_top">
+                <span>算法评估></span>
+                <span>训练日志</span>
+            </div>
+            <label class="nav_label">日志列表</label>
+        </div>
+        <div>
+            <input type="button" class="qds_btn" value="删除" disabled="disabled" data-toggle="modal"
+                   data-target="#tncModal3">
+            <input type="button" class="qds_btn" value="修改" disabled="disabled" data-toggle="modal"
+                   data-target="#tncModal2">
+            <input type="button" class="qds_btn" value="新增" data-toggle="modal" data-target="#tncModal1">
+        </div>
+    </div>
+    <div style="padding-right: 32px" id="tnc_table">
+        <table class="table table-hover table_style" style="margin-left: 32px;">
+            <thead>
+            <tr>
+                <th></th>
+                <th>算法名称</th>
+                <th>训练参数</th>
+                <th>算法指标</th>
+                <th>准确率</th>
+                <th>训练时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for i in  res %}
+                <tr>
+                    <td><input type="radio" class="rd" name="tnc_rd" id="tnc_{{ i.train_id }}"
+                               onclick="enable_btn('#tnc_{{ i.train_id }}')"><label for="tnc_{{ i.train_id }}"></label>
+                    </td>
+                    <td>{{ i.algo_name }}</td>
+                    <td>{{ i.para }}</td>
+                    <td>{{ i.indict }}</td>
+                    <td>{{ i.accu }}</td>
+                    <td>{{ i.time }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div id="tnc_page" style="margin-left: 32px"></div>
+        <script>
+            layui.use(['laypage', 'layer'], function () {
+                var laypage = layui.laypage
+                    , layer = layui.layer;
+                laypage.render({
+                    elem: 'tnc_page'
+                    , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+                    , count: {{ count }}
+                    , curr: {{ index}}
+                    , limit: 10
+                    , theme: '#1E9FFF'
+                    , jump: function (obj, first) {
+                        if (!first) {
+                            show_train_table(obj.curr);
+                        }
+                    }
+                });
+            });
+        </script>
+    </div>
+    <div class="modal fade" id="tncModal1">
+        <div class="modal-dialog" style="width: 380px;height: 340px">
+            <div class="modal-content" style="width: 100%;height: 100%">
+                <div class="modal-header" style="border: 0px;text-align: center;">
+                    <label class="modal-title" style="font-size: 18px;font-weight: bold;color: #081839">新增日志</label>
+                </div>
+                <div class="modal-body" style="border: 0px;text-align: center;">
+                    <div>
+                        <label><strong>算法名称</strong></label>
+                        <input type="text" class="form-control"style="display: none">
+                        <select class="form-control">
+                            <option value="0">AdaBoost</option>
+                            <option value="1">随机森林</option>
+                            <option value="2">CNN</option>
+                            <option value="3">谱聚类</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label><strong>训练参数</strong></label>
+                        <input type="text" class="form-control" placeholder="选填，json格式">
+                    </div>
+                    <div>
+                        <label><strong>算法指标</strong></label>
+                        <input type="text" class="form-control" placeholder="必填，json格式">
+                    </div>
+                    <div>
+                        <label><strong>准确率</strong></label>
+                        <input type="text" class="form-control" style="margin-left: 24px" placeholder="必填，浮点数">
+                    </div>
+                    <div>
+                        <label><strong>训练时间</strong></label>
+                        <input type="datetime-local" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer" style="border: 0px;text-align: center;padding: 0;">
+                    <button type="button" class="qds_btn" onclick="return_main('#tncModal1')">
+                        取消
+                    </button>
+                    <button type="button" class="qds_btn" onclick="add_train()">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="tncModal2">
+        <div class="modal-dialog" style="width: 380px;height: 340px">
+            <div class="modal-content" style="width: 100%;height: 100%">
+                <div class="modal-header" style="border: 0px;text-align: center;">
+                    <label class="modal-title" style="font-size: 18px;font-weight: bold;color: #081839">修改日志</label>
+                </div>
+                <div class="modal-body" style="border: 0px;text-align: center;">
+                    <div>
+                        <label><strong>算法名称</strong></label>
+                        <input type="text" class="form-control"style="display: none">
+                        <select class="form-control">
+                            <option value="0">AdaBoost</option>
+                            <option value="1">随机森林</option>
+                            <option value="2">CNN</option>
+                            <option value="3">谱聚类</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label><strong>训练参数</strong></label>
+                        <input type="text" class="form-control" placeholder="选填，json格式">
+                    </div>
+                    <div>
+                        <label><strong>算法指标</strong></label>
+                        <input type="text" class="form-control" placeholder="必填，json格式">
+                    </div>
+                    <div>
+                        <label><strong>准确率</strong></label>
+                        <input type="text" class="form-control" style="margin-left: 24px" placeholder="必填，浮点数">
+                    </div>
+                    <div>
+                        <label><strong>训练时间</strong></label>
+                        <input type="datetime-local" class="form-control">
+                    </div>
+                </div>
+                <div class="modal-footer" style="border: 0px;text-align: center;padding: 0;">
+                    <button type="button" class="qds_btn" onclick="return_main('#tncModal2')">
+                        取消
+                    </button>
+                    <button type="button" class="qds_btn" onclick="update_train()">
+                        保存
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="tncModal3">
+        <div class="modal-dialog" style="width: 260px;height: 192px">
+            <div class="modal-content" style="width: 100%;height: 100%;">
+                <div class="modal-header" style="border: 0px;">
+                    <label class="modal-title" style="font-size: 18px;font-weight: bold;color: #081839">温馨提示</label>
+                </div>
+                <div class="modal-body" style="border: 0px;text-align: center;">
+                    <label style="font-size: 15px;color: #081839">确定删除此日志？</label>
+                </div>
+                <div class="modal-footer" style="border: 0px;text-align: center;">
+                    <button type="button" class="qds_btn" onclick="return_main('#tncModal3')">
+                        取消
+                    </button>
+                    <button type="button" class="qds_btn" onclick="delete_train()">
+                        删除
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<table class="table table-hover table_style" style="margin-left: 32px;">
+    <thead>
+    <tr>
+        <th></th>
+        <th>名称</th>
+        <th>缩写</th>
+        <th>标准</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in  res %}
+        <tr>
+            <td><input type="radio" class="rd" name="syn_rd" id="syn_{{ i.syn_id }}"
+                       onclick="enable_btn('#syn_{{ i.syn_id }}')"><label for="syn_{{ i.syn_id }}"></label>
+            </td>
+            <td>{{ i.syn_name }}</td>
+            <td>{{ i.abbr }}</td>
+            <td>{{ i.std_name }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div id="snc_page" style="margin-left: 32px"></div>
+<script>
+    layui.use(['laypage', 'layer'], function () {
+        var laypage = layui.laypage
+            , layer = layui.layer;
+        laypage.render({
+            elem: 'snc_page'
+            , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+            , count: {{ count }}
+            , curr: {{ index}}
+            , limit: 10
+            , theme: '#1E9FFF'
+            , jump: function (obj, first) {
+                if (!first) {
+                    show_syndrome_table(obj.curr);
+                }
+            }
+        });
+    });
+</script>

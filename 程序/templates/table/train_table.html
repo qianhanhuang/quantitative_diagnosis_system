@@ -1,0 +1,46 @@
+<table class="table table-hover table_style" style="margin-left: 32px;">
+    <thead>
+    <tr>
+        <th></th>
+        <th>算法名称</th>
+        <th>训练参数</th>
+        <th>算法指标</th>
+        <th>准确率</th>
+        <th>训练时间</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in  res %}
+        <tr>
+            <td><input type="radio" class="rd" name="tnc_rd" id="tnc_{{ i.train_id }}"
+                       onclick="enable_btn('#tnc_{{ i.train_id }}')"><label for="tnc_{{ i.train_id }}"></label>
+            </td>
+            <td>{{ i.algo_name }}</td>
+            <td>{{ i.para }}</td>
+            <td>{{ i.indict }}</td>
+            <td>{{ i.accu }}</td>
+            <td>{{ i.time }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div id="tnc_page" style="margin-left: 32px"></div>
+<script>
+    layui.use(['laypage', 'layer'], function () {
+        var laypage = layui.laypage
+            , layer = layui.layer;
+        laypage.render({
+            elem: 'tnc_page'
+            , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+            , count: {{ count }}
+            , curr: {{ index}}
+            , limit: 10
+            , theme: '#1E9FFF'
+            , jump: function (obj, first) {
+                if (!first) {
+                    show_train_table(obj.curr);
+                }
+            }
+        });
+    });
+</script>

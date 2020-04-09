@@ -1,0 +1,47 @@
+<table class="table table-hover table_style" style="margin-left: 32px;table-layout: fixed;margin-right: 30px;">
+    <thead>
+    <tr>
+        <th style="width: 5%"></th>
+        <th style="width: 25%">主症</th>
+        <th style="width: 25%">次症</th>
+        <th style="width: 15%">舌象</th>
+        <th style="width: 15%">脉象</th>
+        <th style="width: 15%">证型</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for i in  res %}
+        <tr>
+            <td><input type="radio" class="rd" name="dnc_rd" id="dnc_{{ i['rcd_id'] }}"
+                       onclick="enable_btn('#dnc_{{ i['rcd_id'] }}')"><label
+                    for="dnc_{{ i['rcd_id'] }}"></label>
+            </td>
+            <td title="{{ i['main_sym'] }}">{{ i['main_sym'] }}</td>
+            <td title="{{ i['add_sym'] }}">{{ i['add_sym'] }}</td>
+            <td title="{{ i['tongue'] }}">{{ i['tongue'] }}</td>
+            <td title="{{ i['pulse'] }}">{{ i['pulse'] }}</td>
+            <td title="{{ i['syndrome'] }}">{{ i['syndrome'] }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<div id="dnc_page" style="margin-left: 32px"></div>
+<script>
+    layui.use(['laypage', 'layer'], function () {
+        var laypage = layui.laypage
+            , layer = layui.layer;
+        laypage.render({
+            elem: 'dnc_page'
+            , layout: ['count', 'prev', 'page', 'next', 'refresh', 'skip']
+            , count: {{ count }}
+            , curr: {{ index}}
+            , limit: 10
+            , theme: '#1E9FFF'
+            , jump: function (obj, first) {
+                if (!first) {
+                    show_diagnose_table(obj.curr);
+                }
+            }
+        });
+    });
+</script>

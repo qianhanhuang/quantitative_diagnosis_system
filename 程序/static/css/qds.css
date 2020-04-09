@@ -1,0 +1,136 @@
+/*basic_table*/
+.table_style {
+    width: 100%;
+    margin: 0px;
+    border: 1px solid #f0f0f0;
+    overflow: scroll;
+}
+
+.table_style thead {
+    background-color: #f2f3f6;
+    font-size: 14px;
+    font-weight: bold;
+    color: #081839;
+}
+
+.table_style tbody {
+    font-size: 14px;
+    color: #4c546a;
+}
+
+.qds_btn {
+    font-size: 14px;
+    color: #07cee0;
+    background-color: #FFFFFF;
+    border: 1px solid #07cee0;
+    margin: 10px 0px 14px 15px;
+    border-radius: 4px;
+    height: 25px;
+    width: 70px;
+    text-align: center;
+    padding: 0px;
+}
+
+.qds_btn:hover {
+    font-size: 14px;
+    color: #FFFFFF;
+    background-color: #FF6F2F;
+    border: 1px solid #FF6F2F;
+}
+
+/*页面中的选项卡样式*/
+#qds_tab {
+    padding-top: 15px;
+    margin-left: 32px;
+}
+
+#qds_tab ul {
+    border_bottom: solid 1px #e8e8e8;
+    padding: 0;
+    font-size: 14px;
+    font-weight: bold;
+
+}
+
+#qds_tab li a {
+    color: #081839;
+}
+
+#qds_tab li.active a {
+    border: none;
+    border-bottom: solid 2px #07cee0;
+    color: #07cee0;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/*页面中的选项卡*/
+
+
+/*页面中最上方的指引*/
+.nav_top {
+    padding-top: 10px;
+    padding-left: 32px;
+    font-size: 12px;
+    color: #a8afc3;
+}
+
+.nav_label {
+    font-size: 16px;
+    padding-left: 32px;
+    padding-top: 23px;
+    color: #081839;
+    font-weight: bold;
+}
+
+/*end*/
+
+/*radio样式*/
+.rd {
+    display: none; /* 将原生的radio隐藏 */
+}
+
+/* label 模拟 “底部框” */
+.rd + label {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    /*box-shadow: 0 1px 15px rgba(0, 0, 0, 0.1) inset, 0 1px 4px rgba(0, 0, 0, 0.1) inset, 1px -1px 2px rgba(0, 0, 0, 0.1);*/
+    border: #b3b3b3 solid 1px;
+}
+
+/* “label::before伪元素 模拟 “选择小圆块” */
+.rd + label:before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 500;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: #059acb;
+    -webkit-transition: all 0.15s ease-in;
+    transition: all 0.15s ease-in;
+}
+
+/* radio选中状态时，“底部框”的样式 */
+.rd:checked + label {
+    background: #ffffff;
+}
+
+/* radio选中状态时，“选择小圆块”的样式 */
+.rd:checked + label:before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 10px;
+    height: 10px;
+}
+
+/*end*/

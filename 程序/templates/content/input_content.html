@@ -1,0 +1,337 @@
+<style>
+    #ic input[type="text"], #ic input[type="file"] {
+        display: inline-block;
+        padding: 0 0 0 10px;
+        height: 30px;
+        width: 500px;
+        margin: 0 0 10px 10px;
+    }
+
+    .ui-autocomplete {
+        z-index: 11111;
+        max-width: 500px;
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: scroll;
+        font-size: 14px;
+    }
+</style>
+<script>
+    rebind();
+
+    function clear_form(elem) {
+        $(elem).parent().parent().find('input[type="text"]').val('');
+        $(elem).parent().parent().find('input[type="file"]').val('');
+        $(elem).parent().parent().find('textarea').val('');
+    }
+
+    function form_upload() {
+        var target = $('#form input');
+        if (target.eq(0).val() == '' && target.eq(2).val() == '' && target.eq(2).val() == '' && target.eq(3).val() == '') {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>无效输入！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        $.ajax({
+            url: 'form_upload',
+            type: 'POST',
+            data: JSON.stringify({
+                main_sym: target.eq(0).val(),
+                add_sym: target.eq(1).val(),
+                tongue: target.eq(2).val(),
+                pulse: target.eq(3).val(),
+                syndrome: target.eq(4).val(),
+            }),
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>录入成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>录入失败</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+
+    function text_upload() {
+        if ($('#text textarea').eq(0).val() == '') {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>请输入文本！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        $.ajax({
+            url: 'text_upload',
+            type: 'POST',
+            data: JSON.stringify({
+                text: $('#text textarea').eq(0).val(),
+            }),
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>录入成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>' + data['message'] + '</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+
+    function excel_upload() {
+        var data = new FormData();
+        var target = $('#excel input[type="text"]');
+        if ($('#excel input[type="file"]').eq(0).prop('files').length == 0) {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>请上传文件！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        if ($('#excel input[type="file"]').eq(0).prop('files')[0].name.split('.').pop() != 'xls' && $('#excel input[type="file"]').eq(0).prop('files')[0].name.split('.').pop() != 'xlsx') {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>文件类型错误！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        if (target.eq(0).val() == '' || target.eq(1).val() == '' || target.eq(2).val() == '' || target.eq(3).val() == '' || target.eq(4).val() == '' || target.eq(5).val() == '' || target.eq(6).val() == '') {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>请完善表单！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        data.append('file', $('#excel input[type="file"]').eq(0).prop('files')[0]);
+        data.append('first_row', target.eq(0).val());
+        data.append('last_row', target.eq(1).val());
+        data.append('main_col', target.eq(2).val());
+        data.append('add_col', target.eq(3).val());
+        data.append('ton_col', target.eq(4).val());
+        data.append('pul_col', target.eq(5).val());
+        data.append('syn_col', target.eq(6).val());
+        $.ajax({
+            url: 'excel_upload',
+            type: 'POST',
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: data,
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>录入成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>' + data['message'] + '</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+
+    function database_upload() {
+        var target = $('#database input[type="text"]');
+        if (target.eq(0).val() == '' || target.eq(1).val() == '' || target.eq(2).val() == '' || target.eq(3).val() == '' || target.eq(4).val() == '' || target.eq(5).val() == '' || target.eq(6).val() == '') {
+            toastr.options.timeOut = "2000";
+            toastr.options.closeButton = true;
+            toastr['error']('<small>请完善表单！</small>', '', {positionClass: 'toast-bottom-center'});
+            return;
+        }
+        $.ajax({
+            url: 'database_upload',
+            type: 'POST',
+            data: JSON.stringify({
+                conn: target.eq(0).val(),
+                table: target.eq(1).val(),
+                main: target.eq(2).val(),
+                add: target.eq(3).val(),
+                tongue: target.eq(4).val(),
+                pulse: target.eq(5).val(),
+                syndrome: target.eq(6).val(),
+            }),
+            success: function (data) {
+                if (data['code'] != "-1") {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['success']('<small>录入成功</small>', '', {positionClass: 'toast-bottom-center'});
+                } else {
+                    toastr.options.timeOut = "2000";
+                    toastr.options.closeButton = true;
+                    toastr['error']('<small>' + data['message'] + '</small>', '', {positionClass: 'toast-bottom-center'});
+                }
+            }
+        })
+    }
+</script>
+<div id="ic">
+    <div>
+        <div class="nav_top">
+            <span>量化诊断></span>
+            <span>医案录入</span>
+        </div>
+        <label class="nav_label">医案录入</label>
+        <div id="qds_tab" style="margin-bottom: 30px;padding-top: 5px">
+            <ul class="nav nav-tabs navbar-left">
+                <li class="active">
+                    <a href="#form" data-toggle="tab"><span>表单录入</span></a>
+                </li>
+                <li>
+                    <a href="#text" data-toggle="tab"><span>文本录入</span></a>
+                </li>
+                <li>
+                    <a href="#excel" data-toggle="tab"><span>表格录入</span></a>
+                </li>
+                <li>
+                    <a href="#database" data-toggle="tab"><span>数据库录入</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="panel-body">
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="form">
+                <div></div>
+                <div style="border: 0px;text-align: center;">
+                    <div>
+                        <label><strong>主症</strong></label>
+                        <input type="text" class="form-control auto_symptom" placeholder="例如:头疼,呕吐">
+                    </div>
+                    <div>
+                        <label><strong>次症</strong></label>
+                        <input type="text" class="form-control auto_symptom" placeholder="例如:乏力,失眠">
+                    </div>
+                    <div>
+                        <label><strong>舌象</strong></label>
+                        <input type="text" class="form-control auto_tongue" placeholder="例如:舌淡,苔白">
+                    </div>
+                    <div>
+                        <label><strong>脉象</strong></label>
+                        <input type="text" class="form-control auto_pulse" placeholder="例如:脉弦,脉数">
+                    </div>
+                    <div>
+                        <label><strong>证型</strong></label>
+                        <input type="text" class="form-control auto_syndrome" placeholder="例如:心阳虚,肾阴虚">
+                    </div>
+                </div>
+                <div style="border: 0px;text-align: center;padding: 0;">
+                    <button type="button" class="qds_btn" onclick="clear_form(this)">
+                        清空
+                    </button>
+                    <button type="button" class="qds_btn" onclick="form_upload()">
+                        提交
+                    </button>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="text">
+                <div style="margin-left: 20%">
+                    <textarea class="form-control" style="width: 600px;height:300px;margin: 0 0 10px 180px;" rows="8"
+                              placeholder="例如:&#10主症:呕吐,头疼&#10次症:失眠,乏力&#10舌象:舌白,苔淡&#10脉象:脉弦,脉涩&#10证型:心阴虚,肾阳虚&#10&#10主症:呕吐,头疼&#10次症:失眠,乏力&#10舌象:舌白,苔淡&#10脉象:脉弦,脉涩&#10证型:心阴虚,肾阳虚&#10"></textarea>
+                </div>
+                <div style="border: 0px;text-align: center;padding: 0;">
+                    <button type="button" class="qds_btn" onclick="clear_form(this)">
+                        清空
+                    </button>
+                    <button type="button" class="qds_btn" onclick="text_upload()">
+                        提交
+                    </button>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="excel">
+                <div style="border: 0px;text-align: center;">
+                    <div>
+                        <label><strong>文件路径</strong></label>
+                        <input type="button" class="qds_btn"
+                               style="position:absolute;margin: 0;left: 38%;width: 80px;height: 27px" value="选择文件"
+                               onclick="(function f(elem) {
+                                    $(elem).next().click();
+                                })(this)">
+                        <input type="file"
+                               accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                    </div>
+                    <div>
+                        <label><strong>起始行数</strong></label>
+                        <input type="text" class="form-control" placeholder="必填，整数">
+                    </div>
+                    <div>
+                        <label><strong>结束行数</strong></label>
+                        <input type="text" class="form-control" placeholder="必填，整数">
+                    </div>
+                    <div>
+                        <label><strong>主症列号</strong></label>
+                        <input type="text" class="form-control" placeholder="必填，整数">
+                    </div>
+                    <div>
+                        <label><strong>次症列号</strong></label>
+                        <input type="text" class="form-control" placeholder="必填，整数">
+                    </div>
+                    <div>
+                        <label><strong>舌象列号</strong></label>
+                        <input type="text" class="form-control" placeholder="必填，整数">
+                    </div>
+                    <div>
+                        <label><strong>脉象列号</strong></label>
+                        <input type="text" class="form-control" placeholder="必填，整数">
+                    </div>
+                    <div>
+                        <label><strong>证型列号</strong></label>
+                        <input type="text" class="form-control" placeholder="必填，整数">
+                    </div>
+                </div>
+                <div style="border: 0px;text-align: center;padding: 0;">
+                    <button type="button" class="qds_btn" onclick="clear_form(this)">
+                        清空
+                    </button>
+                    <button type="button" class="qds_btn" onclick="excel_upload()">
+                        提交
+                    </button>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="database">
+                <div style="border: 0px;text-align: center;">
+                    <div>
+                        <label><strong>连接字串</strong></label>
+                        <input type="text" class="form-control" placeholder="必填，格式-用户名:密码@地址:端口/数据库名">
+                    </div>
+                    <div>
+                        <label><strong>所在表名</strong></label>
+                        <input type="text" class="form-control" placeholder="必填">
+                    </div>
+                    <div>
+                        <label><strong>主症字段</strong></label>
+                        <input type="text" class="form-control" placeholder="必填">
+                    </div>
+                    <div>
+                        <label><strong>次症字段</strong></label>
+                        <input type="text" class="form-control" placeholder="必填">
+                    </div>
+                    <div>
+                        <label><strong>舌象字段</strong></label>
+                        <input type="text" class="form-control" placeholder="必填">
+                    </div>
+                    <div>
+                        <label><strong>脉象字段</strong></label>
+                        <input type="text" class="form-control" placeholder="必填">
+                    </div>
+                    <div>
+                        <label><strong>证型字段</strong></label>
+                        <input type="text" class="form-control" placeholder="必填">
+                    </div>
+                </div>
+                <div style="border: 0px;text-align: center;padding: 0;">
+                    <button type="button" class="qds_btn" onclick="clear_form(this)">
+                        清空
+                    </button>
+                    <button type="button" class="qds_btn" onclick="database_upload()">
+                        提交
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
