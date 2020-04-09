@@ -9,5 +9,5 @@ itsdangerous==0.24
 Jinja2==2.10
 mysql-connector==2.1.6
 PyMySQL==0.9.2
-requests==2.19.1
+requests==2.20.0
 SQLAlchemy==1.2.11
