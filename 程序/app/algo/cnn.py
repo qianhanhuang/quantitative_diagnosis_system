@@ -77,14 +77,15 @@ def max_pool_2x2(x):
 
 def train(feature_mat, tag_mat):
     sess = tf.InteractiveSession()
-    x, y_, keep_prob, y_conv = crete_tf()
+    x, y_, keep_prob, y_conv, train_step = crete_tf()
     tf.global_variables_initializer().run()
     saver = tf.train.Saver(max_to_keep=1)
     count = len(feature_mat)
     base = 0
     i = 0
     while base + 100 < count:
-        predict_y = y_conv.eval(feed_dict={x: feature_mat[base: base + 100], y_: tag_mat[base: base + 100], keep_prob: 0.8})
+        train_step.run(feed_dict={x: feature_mat[base: base + 100], y_: tag_mat[base: base + 100], keep_prob: 0.8})
+        predict_y = y_conv.eval(feed_dict={x: feature_mat[base: base + 100], y_: tag_mat[base: base + 100], keep_prob: 1})
         base += 100
         i += 1
         h, o, c = assess(predict_y, tag_mat[base: base + 100])
@@ -188,11 +189,11 @@ def crete_tf():
 
     cross_entropy = tf.reduce_mean(-tf.reduce_sum(y_ * tf.log(y_conv), reduction_indices=[1]))
     train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
-    return x, y_, keep_prob, y_conv
+    return x, y_, keep_prob, y_conv, train_step
 
 def prediction(main_sym, add_sym, ton, pul):
     sess = tf.InteractiveSession()
-    x, y_, keep_prob, y_conv = crete_tf()
+    x, y_, keep_prob, y_conv, train_step = crete_tf()
     tf.global_variables_initializer().run()
     model_file = tf.train.latest_checkpoint('./app/algo/model/')
     saver = tf.train.Saver(max_to_keep=3)
